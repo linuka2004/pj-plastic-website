@@ -1,0 +1,291 @@
+.home-page {
+  min-height: 100vh;
+}
+
+/* Features Tabs Section */
+.features-tabs-section {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.features-tabs-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.features-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.features-header h2 {
+  font-size: 3rem;
+  color: #20232a;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.features-header p {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tabs-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.tabs-navigation {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover {
+  background: rgba(97, 218, 251, 0.1);
+  transform: translateY(-2px);
+}
+
+.tab-btn.active {
+  background: white;
+  border-bottom-color: #61dafb;
+}
+
+.tab-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tab-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #20232a;
+  text-align: center;
+}
+
+.tab-btn.active .tab-title {
+  color: #61dafb;
+}
+
+.tab-content {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.tab-panel h3 {
+  font-size: 2rem;
+  color: #20232a;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.tab-panel p {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Stats Section */
+.stats-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  text-align: center;
+}
+
+.stat-item {
+  padding: 2rem;
+}
+
+.stat-number {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #61dafb;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* CTA Section */
+.cta-section {
+  padding: 100px 0;
+  background: #20232a;
+  color: white;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  padding: 15px 35px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.cta-btn.primary {
+  background: #61dafb;
+  color: #20232a;
+}
+
+.cta-btn.primary:hover {
+  background: #21a1c4;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(33, 161, 196, 0.3);
+}
+
+.cta-btn.secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.cta-btn.secondary:hover {
+  background: white;
+  color: #20232a;
+  transform: translateY(-2px);
+}
+
+/* Animation for stats counter */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-number {
+  animation: countUp 1s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .tabs-navigation {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .features-header h2 {
+    font-size: 2.2rem;
+  }
+  
+  .tabs-navigation {
+    grid-template-columns: 1fr;
+  }
+  
+  .tab-btn {
+    padding: 1.5rem 1rem;
+  }
+  
+  .tab-content {
+    padding: 2rem 1rem;
+  }
+  
+  .tab-panel h3 {
+    font-size: 1.5rem;
+  }
+  
+  .tab-panel p {
+    font-size: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cta-btn {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-tabs-section {
+    padding: 60px 0;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cta-section {
+    padding: 60px 0;
+  }
+  
+  .tab-icon {
+    font-size: 2rem;
+  }
+  
+  .tab-title {
+    font-size: 1rem;
+  }
+}

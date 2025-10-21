@@ -1,0 +1,221 @@
+.carousel-section {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.carousel-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.carousel-header h2 {
+  font-size: 2.5rem;
+  color: #20232a;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, #61dafb, #21a1c4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.carousel-header p {
+  font-size: 1.2rem;
+  color: #666;
+  font-weight: 600;
+}
+
+.carousel {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto 4rem;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: none;
+}
+
+.carousel-slide.active {
+  display: block;
+}
+
+.slide-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 400px;
+  background: white;
+}
+
+.slide-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8rem;
+  background: linear-gradient(135deg, #61dafb, #21a1c4);
+  color: white;
+  padding: 2rem;
+}
+
+.slide-text {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide-text h3 {
+  font-size: 2rem;
+  color: #20232a;
+  margin-bottom: 1rem;
+}
+
+.slide-text p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.offer-badge {
+  background: #ff6b6b;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.carousel-btn:hover {
+  background: #61dafb;
+  color: white;
+}
+
+.carousel-btn.prev {
+  left: 20px;
+}
+
+.carousel-btn.next {
+  right: 20px;
+}
+
+.carousel-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #61dafb;
+  transform: scale(1.2);
+}
+
+.dot:hover {
+  background: #61dafb;
+}
+
+.rewards-section {
+  text-align: center;
+  background: white;
+  padding: 3rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.rewards-section h3 {
+  font-size: 2rem;
+  color: #20232a;
+  margin-bottom: 2rem;
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.reward-tier {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border-left: 4px solid #61dafb;
+}
+
+.tier-header {
+  font-weight: 700;
+  color: #20232a;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.tier-reward {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.terms {
+  font-size: 0.8rem;
+  color: #999;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .slide-content {
+    grid-template-columns: 1fr;
+    min-height: 300px;
+  }
+  
+  .slide-image {
+    font-size: 4rem;
+    padding: 1rem;
+  }
+  
+  .slide-text {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .rewards-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .carousel-header h2 {
+    font-size: 2rem;
+  }
+}
