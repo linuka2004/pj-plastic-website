@@ -1,0 +1,27 @@
+/* src/components/ProductsPreview.css */
+.products-preview {
+  background: white;
+  padding: 80px 0;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: #222222; /* Darker text */
+  margin-bottom: 1rem;
+}
+
+.section-header p {
+  font-size: 1.1rem;
+  color: #555555; /* Better contrast */
+}
+
+.product-card h3 {
+  color: #222222; /* Darker text */
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.product-card p {
+  color: #666666; /* Better contrast */
+  line-height: 1.6;
+}
