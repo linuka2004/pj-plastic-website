@@ -15,7 +15,7 @@
   padding: 0 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  height: 100px;
+  height: 70px;
 }
 
 .nav-brand {
@@ -95,20 +95,33 @@
 .search-box {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  padding: 8px 12px;
-  transition: background 0.3s ease;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 25px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 .search-box:hover {
   background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(97, 218, 251, 0.5);
+}
+
+.search-box:focus-within {
+  background: white;
+  border-color: #61dafb;
 }
 
 .search-box i {
   margin-right: 8px;
   opacity: 0.7;
   color: white;
+  transition: all 0.3s ease;
+}
+
+.search-box:focus-within i {
+  color: #61dafb;
+  opacity: 1;
 }
 
 .search-box input {
@@ -116,12 +129,25 @@
   border: none;
   color: white;
   outline: none;
-  width: 120px;
+  width: 180px;
   font-size: 14px;
+  transition: all 0.3s ease;
 }
 
 .search-box input::placeholder {
   color: rgba(255, 255, 255, 0.7);
+}
+
+.search-box input:focus {
+  color: #20232a;
+}
+
+.search-box:focus-within input {
+  color: #20232a;
+}
+
+.search-box:focus-within input::placeholder {
+  color: rgba(32, 35, 42, 0.6);
 }
 
 .nav-auth {
@@ -200,6 +226,24 @@
   transform: translateY(-2px);
 }
 
+.cart-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+}
+
+.cart-btn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
 @media (max-width: 968px) {
   .navbar {
     padding: 0 1rem;
@@ -219,7 +263,7 @@
   }
   
   .search-box input {
-    width: 100px;
+    width: 150px;
   }
 }
 
@@ -245,6 +289,10 @@
   .nav-menu a {
     font-size: 14px;
   }
+  
+  .search-box input {
+    width: 120px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -259,23 +307,13 @@
   .nav-menu {
     gap: 0.8rem;
   }
-}
-
-/* Cart Button Styles */
-.cart-btn {
-  background-color: #28a745;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-weight: 500;
-}
-
-.cart-btn:hover {
-  background-color: #218838;
-  transform: translateY(-1px);
+  
+  .search-box {
+    padding: 6px 12px;
+  }
+  
+  .search-box input {
+    width: 100px;
+    font-size: 12px;
+  }
 }

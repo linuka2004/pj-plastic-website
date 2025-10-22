@@ -68,3 +68,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Backend integration (Auth)
+
+- The frontend calls the Spring Boot backend at `REACT_APP_API_BASE_URL` (default `http://localhost:8080`).
+- Register: `POST /auth/register` with JSON `{ username, email, password, mobile, address, fullName }`. The UI uses email as username.
+- Login: `POST /auth/login` with JSON `{ username, password }`. Returns a JWT string. The app stores it in localStorage and attaches it as `Authorization: Bearer <token>`.
+- To override backend URL, create `.env` in this folder:
+
+```
+REACT_APP_API_BASE_URL=http://localhost:8080
+```
+

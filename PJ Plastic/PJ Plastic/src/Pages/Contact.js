@@ -1,9 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { GOOGLE_FORM_ACTION, GOOGLE_FORM_FIELDS } from "../config/feedback";
 //import Header from "../components/Header";
 //import Footer from "../components/Footer";
 import './Contact.css';
 
 function Contact() {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSubmitted(false);
+    if (!GOOGLE_FORM_ACTION.includes("formResponse") || GOOGLE_FORM_ACTION.includes("REPLACE_FORM_ID")) {
+      setError("Feedback is not configured yet. Please set your Google Form in src/config/feedback.js");
+      return;
+    }
+    if (!GOOGLE_FORM_FIELDS.name.includes("entry.") || !GOOGLE_FORM_FIELDS.message.includes("entry.")) {
+      setError("Google Form field IDs are missing. Update src/config/feedback.js");
+      return;
+    }
+    try {
+      setSubmitting(true);
+      const fd = new FormData();
+      fd.append(GOOGLE_FORM_FIELDS.name, form.name);
+      fd.append(GOOGLE_FORM_FIELDS.email, form.email);
+      if (GOOGLE_FORM_FIELDS.phone && form.phone) fd.append(GOOGLE_FORM_FIELDS.phone, form.phone);
+      fd.append(GOOGLE_FORM_FIELDS.message, form.message);
+      // Google Forms expects a POST with form-encoded data, but FormData works too.
+      // Use no-cors: the response will be opaque; assume success if no network error.
+      await fetch(GOOGLE_FORM_ACTION, { method: "POST", mode: "no-cors", body: fd });
+      setSubmitted(true);
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch (err) {
+      setError(err?.message || "Failed to send message");
+    } finally {
+      setSubmitting(false);
+    }
+  };
   return (
     <div className="contact-page">
       
@@ -57,20 +98,55 @@ function Contact() {
           <div className="contact-grid">
             <div className="contact-form">
               <h3>Send us a Message</h3>
-              <form id="contact-form">
+              <form id="contact-form" onSubmit={onSubmit}>
                 <div className="form-group">
-                  <input type="text" placeholder="Your Name" required />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    value={form.name}
+                    onChange={onChange}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <input type="email" placeholder="Your Email" required />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Your Email"
+                    value={form.email}
+                    onChange={onChange}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <input type="tel" placeholder="Your Phone" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Your Phone (optional)"
+                    value={form.phone}
+                    onChange={onChange}
+                  />
                 </div>
                 <div className="form-group">
-                  <textarea placeholder="Your Message" rows="5" required></textarea>
+                  <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    rows="5"
+                    value={form.message}
+                    onChange={onChange}
+                    required
+                  ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary">Send Message</button>
+                {error && <p style={{ color: "#d33", marginBottom: "8px" }}>{error}</p>}
+                {submitted && !error && (
+                  <p style={{ color: "#0a7", marginBottom: "8px" }}>
+                    Thanks! Your message was sent.
+                  </p>
+                )}
+                <button type="submit" className="btn btn-primary" disabled={submitting}>
+                  {submitting ? "Sending…" : "Send Message"}
+                </button>
               </form>
             </div>
             
@@ -94,7 +170,7 @@ function Contact() {
                 <i className="fas fa-envelope"></i>
                 <div>
                   <h4>Email</h4>
-                  <p>info@pjplastic.com</p>
+                  <p>Admin@pjplastic.com</p>
                 </div>
               </div>
               <div className="contact-item">
