@@ -21,6 +21,10 @@ function Header() {
     navigate('/cart'); // Redirect to cart page
   };
 
+  const goAdmin = () => {
+    navigate('/admin');
+  };
+
   return (
     <>
       <header className="rn-header">
@@ -68,18 +72,21 @@ function Header() {
           <div className="nav-auth">
             {currentUser ? (
               <div className="user-menu">
-                <span>Welcome, {currentUser.email}</span>
+                <button 
+                  onClick={handleCartClick}
+                  className="auth-btn cart-btn"
+                  title="View Cart"
+                >
+                  🛒 Cart {cartCount > 0 && `(${cartCount})`}
+                </button>
+                {currentUser.isAdmin && (
+                  <button onClick={goAdmin} className="auth-btn admin-btn">Admin</button>
+                )}
+                <span className="welcome-text">{currentUser.email || currentUser.username}</span>
                 <button onClick={logout} className="logout-btn">Logout</button>
               </div>
             ) : (
               <div className="auth-buttons">
-                <button 
-                  onClick={handleCartClick}
-                  className="auth-btn cart-btn"
-                >
-                  🛒 Cart {cartCount > 0 && `(${cartCount})`}
-                </button>
-                
                 <button 
                   onClick={() => setIsAuthModalOpen(true)}
                   className="auth-btn login-btn"

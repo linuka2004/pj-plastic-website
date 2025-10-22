@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './AuthModal.css';
+import { useNavigate } from 'react-router-dom';
 
 function AuthModal({ isOpen, onClose, mode = 'login' }) {
   const [activeMode, setActiveMode] = useState(mode);
@@ -14,7 +15,8 @@ function AuthModal({ isOpen, onClose, mode = 'login' }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   
-  const { login, signup, signInWithGoogle, signInWithFacebook } = useAuth();
+  const { login, register } = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -40,30 +42,36 @@ function AuthModal({ isOpen, onClose, mode = 'login' }) {
 
     try {
       if (activeMode === 'login') {
-        await login(formData.email, formData.password);
+        const info = await login({ email: formData.email, password: formData.password });
+        if (info?.isAdmin || (info?.role && String(info.role).toUpperCase() === 'ADMIN')) {
+          navigate('/admin');
+        } else {
+          navigate('/my-account');
+        }
       } else {
-        await signup(formData.email, formData.password);
-        // Here you can save additional user data to Firestore
+        await register({
+          fullName: formData.name,
+          email: formData.email,
+          mobile: formData.phone,
+          address: '',
+          password: formData.password,
+        });
+        // Auto login after successful registration
+        const info = await login({ email: formData.email, password: formData.password });
+        if (info?.isAdmin || (info?.role && String(info.role).toUpperCase() === 'ADMIN')) {
+          navigate('/admin');
+        } else {
+          navigate('/my-account');
+        }
       }
       onClose();
     } catch (error) {
-      setError(error.message);
+      setError(error.message || 'Authentication failed');
     }
     setLoading(false);
   };
 
-  const handleSocialLogin = async (provider) => {
-    try {
-      if (provider === 'google') {
-        await signInWithGoogle();
-      } else if (provider === 'facebook') {
-        await signInWithFacebook();
-      }
-      onClose();
-    } catch (error) {
-      setError(error.message);
-    }
-  };
+  // Social login is not wired to backend; hide for now or keep disabled
 
   if (!isOpen) return null;
 
@@ -120,9 +128,9 @@ function AuthModal({ isOpen, onClose, mode = 'login' }) {
 
           <div className="form-group">
             <input
-              type="email"
+              type="text"
               name="email"
-              placeholder="Email Address"
+              placeholder="Email or Username"
               value={formData.email}
               onChange={handleChange}
               required
@@ -158,27 +166,7 @@ function AuthModal({ isOpen, onClose, mode = 'login' }) {
           </button>
         </form>
 
-        <div className="social-auth">
-          <p>Or continue with</p>
-          <div className="social-buttons">
-            <button 
-              type="button" 
-              className="social-btn google-btn"
-              onClick={() => handleSocialLogin('google')}
-            >
-              <i className="fab fa-google"></i>
-              Google
-            </button>
-            <button 
-              type="button" 
-              className="social-btn facebook-btn"
-              onClick={() => handleSocialLogin('facebook')}
-            >
-              <i className="fab fa-facebook"></i>
-              Facebook
-            </button>
-          </div>
-        </div>
+        {/* Social auth temporarily disabled until backend support */}
 
         <div className="auth-footer">
           {activeMode === 'login' ? (

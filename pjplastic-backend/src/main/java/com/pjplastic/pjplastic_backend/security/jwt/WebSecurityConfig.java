@@ -172,21 +172,22 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.GET, "/auth/me").authenticated()
                         // Product endpoints - POST, PUT, DELETE require ADMIN role
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
                         // Category endpoints - POST, PUT, DELETE require ADMIN role
                         .requestMatchers(HttpMethod.POST, "/categories/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/categories/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/categories/**").hasRole("ADMIN")
-            // Orders endpoints - authenticated users can create and view
-            .requestMatchers(HttpMethod.POST, "/orders").authenticated()
+            // Orders endpoints - allow placing orders without login; keep other operations protected
+            .requestMatchers(HttpMethod.POST, "/orders").permitAll()
             .requestMatchers(HttpMethod.POST, "/orders/**").authenticated()
             .requestMatchers(HttpMethod.GET, "/orders/**").authenticated()
-            .requestMatchers(HttpMethod.PUT, "/orders/**").authenticated()
+            .requestMatchers(HttpMethod.PUT, "/orders/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/orders/**").authenticated()
-                        // GET requests for products and categories - accessible to all authenticated users
-                        .requestMatchers(HttpMethod.GET, "/products/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/categories/**").authenticated()
+                        // Public read access for catalog endpoints
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 );
