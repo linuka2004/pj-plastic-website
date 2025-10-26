@@ -185,6 +185,11 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.GET, "/orders/**").authenticated()
             .requestMatchers(HttpMethod.PUT, "/orders/**").hasRole("ADMIN")
             .requestMatchers(HttpMethod.DELETE, "/orders/**").authenticated()
+            // Cart endpoints - require authentication
+            .requestMatchers(HttpMethod.GET, "/cart/**").authenticated()
+            .requestMatchers(HttpMethod.POST, "/cart/**").authenticated()
+            .requestMatchers(HttpMethod.PUT, "/cart/**").authenticated()
+            .requestMatchers(HttpMethod.DELETE, "/cart/**").authenticated()
                         // Public read access for catalog endpoints
                         .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()

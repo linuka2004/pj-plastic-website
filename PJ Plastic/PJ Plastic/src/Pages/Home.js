@@ -72,21 +72,21 @@ function Home() {
         <div className="container">
           <div className="stats-grid">
             <div className="stat-item">
-              <div className="stat-number" data-count="50">0</div>
+              <div className="stat-number" data-count="50">50+</div>
               <div className="stat-label">+ Products</div>
             </div>
             <div className="stat-item">
-              <div className="stat-number" data-count="1000">0</div>
+              <div className="stat-number" data-count="1000">100+</div>
               <div className="stat-label">+ Happy Clients</div>
             </div>
             <div className="stat-item">
               <div className="stat-number" data-count="5">5</div>
               <div className="stat-label">+ Years Experience</div>
             </div>
-            <div className="stat-item">
+            {/* <div className="stat-item">
               <div className="stat-number" data-count="24">0</div>
               <div className="stat-label">24/7 Support</div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

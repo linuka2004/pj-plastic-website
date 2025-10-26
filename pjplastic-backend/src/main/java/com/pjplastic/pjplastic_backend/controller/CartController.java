@@ -29,10 +29,10 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody CreateCartDto createCartDto) {
+    public ResponseEntity<CartResponseDto> createCart(@RequestBody CreateCartDto createCartDto) {
         try {
             CartResponseDto createdCart = cartService.createCart(createCartDto);
-            return ResponseEntity.status(201).body(createdOrder);
+            return ResponseEntity.status(201).body(createdCart);
         } catch (RuntimeException e) {
             return ResponseEntity.status(400).body(null);
         } catch (Exception e) {

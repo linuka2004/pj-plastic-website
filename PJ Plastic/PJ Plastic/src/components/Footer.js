@@ -25,7 +25,7 @@ function Footer() {
             <h4>Contact Info</h4>
             <p><i className="fas fa-map-marker-alt"></i> Ratnapura, Sri Lanka</p>
             <p><i className="fas fa-phone"></i> Hotline: +94 45 226 4998</p> {/* Added "Hotline:" */}
-            <p><i className="fas fa-envelope"></i> info@pjplastic.com</p>
+            <p><i className="fas fa-envelope"></i> pjplastic@gmail.com</p>
           </div>
         </div>
         
