@@ -1,119 +1,87 @@
 package com.pjplastic.pjplastic_backend.controller;
 
-import com.pjplastic.pjplastic_backend.dto.CreateCartDto;
-import com.pjplastic.pjplastic_backend.dto.CartResponseDto;
-import com.pjplastic.pjplastic_backend.dto.UpdateCartDto;
+import com.pjplastic.pjplastic_backend.dto.CartDtos;
+import com.pjplastic.pjplastic_backend.entity.UserEntity;
+import com.pjplastic.pjplastic_backend.repository.UserRepository;
 import com.pjplastic.pjplastic_backend.service.CartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/carts")
+@RequestMapping("/cart")
 public class CartController {
 
-    @Autowired
-    private CartService cartService;
+    private final CartService cartService;
+    private final UserRepository userRepository;
+
+    public CartController(CartService cartService, UserRepository userRepository) {
+        this.cartService = cartService;
+        this.userRepository = userRepository;
+    }
+
+    private Long currentUserId(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        String username = (principal instanceof UserDetails)
+                ? ((UserDetails) principal).getUsername()
+                : String.valueOf(principal);
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+        return user.getId();
+    }
 
     @GetMapping
-    public ResponseEntity<List<CartResponseDto>> getAllcarts() {
-        try {
-            List<CartResponseDto> carts = cartService.getAllcarts();
-            return ResponseEntity.ok(carts);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
+    public ResponseEntity<CartDtos.CartResponse> getCart(Authentication authentication) {
+        Long userId = currentUserId(authentication);
+        if (userId == null) return ResponseEntity.status(401).build();
+        return ResponseEntity.ok(cartService.getCartForUser(userId));
     }
 
-    @PostMapping
-    public ResponseEntity<CartResponseDto> createCart(@RequestBody CreateCartDto createCartDto) {
-        try {
-            CartResponseDto createdCart = cartService.createCart(createCartDto);
-            return ResponseEntity.status(201).body(createdCart);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(400).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
+    @PostMapping("/items")
+    public ResponseEntity<CartDtos.CartResponse> addItem(
+            Authentication authentication,
+            @RequestBody CartDtos.UpdateItemRequest req
+    ) {
+        Long userId = currentUserId(authentication);
+        if (userId == null) return ResponseEntity.status(401).build();
+        if (req == null || req.productId == null) return ResponseEntity.badRequest().build();
+        Integer qty = (req.quantity == null || req.quantity <= 0) ? 1 : req.quantity;
+        return ResponseEntity.ok(cartService.addItem(userId, req.productId, qty));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CartResponseDto> getCartById(@PathVariable Long id) {
-        try {
-            CartResponseDto cart = cartService.getCartById(id);
-            return ResponseEntity.ok(cart);
-        } catch (RuntimeException e) {
-            if (e.getMessage().contains("Cart not found")) {
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.status(400).body(null);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
+    @PutMapping("/items/{productId}")
+    public ResponseEntity<CartDtos.CartResponse> updateItem(
+            Authentication authentication,
+            @PathVariable Long productId,
+            @RequestBody Map<String, Integer> body
+    ) {
+        Long userId = currentUserId(authentication);
+        if (userId == null) return ResponseEntity.status(401).build();
+        Integer quantity = body != null ? body.getOrDefault("quantity", 0) : 0;
+        return ResponseEntity.ok(cartService.updateItem(userId, productId, quantity));
     }
 
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<CartResponseDto> updateCart(@PathVariable Long id, @RequestBody UpdateCartDto updateCartDto) {
-        try {
-            CartResponseDto updatedCart = cartService.updateCart(id, updateCartDto);
-            return ResponseEntity.ok(updatedCart);
-        } catch (RuntimeException e) {
-            if (e.getMessage().contains("Cart not found")) {
-                return ResponseEntity.notFound().build();
-            } else if (e.getMessage().contains("Product not found") || e.getMessage().contains("User not found")) {
-                return ResponseEntity.status(400).body(null);
-            } else {
-                return ResponseEntity.status(400).body(null);
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
+    @DeleteMapping("/items/{productId}")
+    public ResponseEntity<CartDtos.CartResponse> removeItem(
+            Authentication authentication,
+            @PathVariable Long productId
+    ) {
+        Long userId = currentUserId(authentication);
+        if (userId == null) return ResponseEntity.status(401).build();
+        return ResponseEntity.ok(cartService.removeItem(userId, productId));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCart(@PathVariable Long id) {
-        try {
-            boolean deleted = cartService.deleteCart(id);
-            
-            if (deleted) {
-                return ResponseEntity.ok("Cart deleted successfully");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (RuntimeException e) {
-            if (e.getMessage().contains("Cart not found")) {
-                return ResponseEntity.notFound().build();
-            } else {
-                return ResponseEntity.status(500).body("Failed to delete cart: " + e.getMessage());
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Failed to delete cart: " + e.getMessage());
-        }
-    }
-
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<CartResponseDto>> getCartsByUserId(@PathVariable Long userId) {
-        try {
-            List<CartResponseDto> carts = cartService.getCartsByUserId(userId);
-            return ResponseEntity.ok(carts);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
-    }
-
-    @GetMapping("/product/{productId}")
-    public ResponseEntity<List<CartResponseDto>> getCartsByProductId(@PathVariable Long productId) {
-        try {
-            List<CartResponseDto> carts = cartService.getCartsByProductId(productId);
-            return ResponseEntity.ok(carts);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
-        }
+    @DeleteMapping
+    public ResponseEntity<?> clearCart(Authentication authentication) {
+        Long userId = currentUserId(authentication);
+        if (userId == null) return ResponseEntity.status(401).build();
+        cartService.clearCart(userId);
+        return ResponseEntity.noContent().build();
     }
 }
