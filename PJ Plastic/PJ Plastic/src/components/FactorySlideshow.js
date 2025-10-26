@@ -3,7 +3,6 @@ import './FactorySlideshow.css';
 
 // Import your actual images
 import factory1 from '../assets/factory/factory1.jpg';
-import factory2 from '../assets/factory/factory2.jpg';
 import factory3 from '../assets/factory/factory3.jpg';
 import factory4 from '../assets/factory/factory4.jpg';
 
@@ -18,20 +17,15 @@ function FactorySlideshow() {
       title: "Our Manufacturing Facility",
       description: "State-of-the-art plastic manufacturing equipment"
     },
+    // factory2 image removed per request
     {
       id: 2,
-      url: factory2,
-      title: "Quality Control Process",
-      description: "Rigorous quality checks ensuring product excellence"
-    },
-    {
-      id: 3,
       url: factory3, 
       title: "Production Line",
       description: "Efficient production processes for timely delivery"
     },
     {
-      id: 4,
+      id: 3,
       url: factory4,
       title: "Warehouse & Storage",
       description: "Spacious storage facilities for bulk orders"

@@ -434,6 +434,15 @@ const AdminDashboard = () => {
       <div className="dashboard-layout">
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className="main-content">
+          <div className="top-actions">
+            <button
+              className="btn-secondary go-home-btn"
+              onClick={() => window.open('http://localhost:3000/', '_self')}
+              title="Go to Home Page"
+            >
+              ⤶ Go to Home
+            </button>
+          </div>
           {activeTab === 'overview' && renderOverview()}
           {activeTab === 'categories' && renderCategories()}
           {activeTab === 'products' && renderProducts()}

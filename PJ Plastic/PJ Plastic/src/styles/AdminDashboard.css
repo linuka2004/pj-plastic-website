@@ -92,6 +92,20 @@
   box-sizing: border-box;
 }
 
+/* Top actions bar */
+.top-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.go-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* Header */
 .dashboard-header-main {
   display: flex;

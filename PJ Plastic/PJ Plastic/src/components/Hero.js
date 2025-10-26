@@ -4,7 +4,6 @@ import './Hero.css';
 
 // Import your slideshow images
 import slide1 from '../assets/factory/factory1.jpg';
-import slide2 from '../assets/factory/factory2.jpg';
 import slide3 from '../assets/factory/factory3.jpg';
 import slide4 from '../assets/factory/factory4.jpg';
 
@@ -18,20 +17,15 @@ function Hero() {
       title: "Modern Manufacturing",
       description: "State-of-the-art plastic manufacturing facility"
     },
+    // slide2 removed per request
     {
       id: 2,
-      url: slide2,
-      title: "Quality Production",
-      description: "Precision engineering for superior quality products"
-    },
-    {
-      id: 3,
       url: slide3,
       title: "Innovation Center", 
       description: "Continuous innovation in plastic solutions"
     },
     {
-      id: 4,
+      id: 3,
       url: slide4,
       title: "Eco-Friendly Solutions",
       description: "Sustainable manufacturing practices"
