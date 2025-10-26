@@ -1,66 +1,34 @@
 package com.pjplastic.pjplastic_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@Table(name = "cart_items")
+@Table(name = "cart_item")
 public class CartItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cart_id", nullable = false)
-    private Long cartId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", nullable = false)
+    private CartEntity cart;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductEntity product;
 
-    @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    @Column(nullable = false)
+    private Integer quantity = 1;
 
-    // Constructors
-    public CartItemEntity() {}
+    public Long getId() { return id; }
 
-    public CartItemEntity(Long cartId, Long productId, Integer quantity) {
-        this.cartId = cartId;
-        this.productId = productId;
-        this.quantity = quantity;
-    }
+    public CartEntity getCart() { return cart; }
+    public void setCart(CartEntity cart) { this.cart = cart; }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public ProductEntity getProduct() { return product; }
+    public void setProduct(ProductEntity product) { this.product = product; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
 }
+

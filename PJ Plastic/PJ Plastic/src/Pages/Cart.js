@@ -8,7 +8,11 @@ function Cart() {
   const navigate = useNavigate();
 
   const handleQuantityChange = (productId, newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      // When quantity goes to 0, remove the item entirely
+      removeFromCart(productId);
+      return;
+    }
     updateQuantity(productId, newQuantity);
   };
 
@@ -71,15 +75,16 @@ function Cart() {
               </div>
 
               <div className="quantity-controls">
-                <button 
+                <button
                   onClick={() => handleQuantityChange(item.id, (item.quantity || 1) - 1)}
-                  disabled={(item.quantity || 1) <= 1}
+                  aria-label="Decrease quantity"
                 >
                   ➖
                 </button>
                 <span className="quantity">{item.quantity || 1}</span>
-                <button 
+                <button
                   onClick={() => handleQuantityChange(item.id, (item.quantity || 1) + 1)}
+                  aria-label="Increase quantity"
                 >
                   ➕
                 </button>

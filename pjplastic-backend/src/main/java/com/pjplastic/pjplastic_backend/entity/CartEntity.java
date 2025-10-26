@@ -1,67 +1,28 @@
 package com.pjplastic.pjplastic_backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@ToString
 @Table(name = "cart")
 public class CartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "cart_name", nullable = false)
-    private String cartName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
 
-    @Column(name = "cart_date", nullable = false)
-    private LocalDate cartDate;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CartItemEntity> items = new ArrayList<>();
 
-    @Column(name = "delivery_date")
-    private LocalDate deliveryDate;
+    public Long getId() { return id; }
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    public UserEntity getUser() { return user; }
+    public void setUser(UserEntity user) { this.user = user; }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getCartName() {
-        return cartName;
-    }
-
-    public void setCartName(String cartName) {
-        this.cartName = cartName;
-    }
-
-    public LocalDate getCartDate() {
-        return cartDate;
-    }
-
-    public void setCartDate(LocalDate cartDate) {
-        this.cartDate = cartDate;
-    }
-
-    public LocalDate getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(LocalDate deliveryDate) {
-        this.deliveryDate = deliveryDate;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+    public List<CartItemEntity> getItems() { return items; }
+    public void setItems(List<CartItemEntity> items) { this.items = items; }
 }

@@ -1,14 +1,13 @@
 package com.pjplastic.pjplastic_backend.repository;
 
+import com.pjplastic.pjplastic_backend.entity.CartEntity;
 import com.pjplastic.pjplastic_backend.entity.CartItemEntity;
+import com.pjplastic.pjplastic_backend.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
-@Repository
 public interface CartItemRepository extends JpaRepository<CartItemEntity, Long> {
-    List<CartItemEntity> findByCartId(Long cartId);
-    List<CartItemEntity> findByProductId(Long productId);
-    void deleteByCartId(Long cartId);
+    Optional<CartItemEntity> findByCartAndProduct(CartEntity cart, ProductEntity product);
+    void deleteByCartAndProduct(CartEntity cart, ProductEntity product);
 }
